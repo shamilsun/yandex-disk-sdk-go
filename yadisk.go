@@ -3,6 +3,7 @@ package yadisk
 import (
 	"bytes"
 	"context"
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"log"
@@ -18,9 +19,19 @@ const (
 )
 
 func NewYaDisk(ctx context.Context, client *http.Client, token *Token) (YaDisk, error) {
-	if token == nil || token.AccessToken == "" {
+	if token.AuthType == EAuthType.OAuthToken && (token == nil || token.AccessToken == "") {
 		return nil, errors.New("required token")
 	}
+	if token.AuthType == EAuthType.BasicHttpsAuth {
+		if token.Login == "" {
+			return nil, errors.New("required login")
+		}
+		if token.Password == "" {
+			return nil, errors.New("required password")
+		}
+		token.AccessToken = base64.StdEncoding.EncodeToString([]byte(token.Login + ":" + token.Password))
+	}
+
 	newClient, err := newClient(ctx, token, BaseURL, 1, client)
 	if err != nil {
 		return nil, err

@@ -139,7 +139,24 @@ type yandexDisk struct {
 // Token for access to Yandex.Disk Rest-API
 type Token struct {
 	AccessToken string
+	AuthType    AAuthType
+	Login       string
+	Password    string
 }
+
+type AAuthType = string
+
+type lAuthType struct {
+	OAuthToken     AAuthType
+	BasicHttpsAuth AAuthType
+}
+
+// Enum for public use
+var EAuthType = &lAuthType{
+	OAuthToken:     "OAuthToken",
+	BasicHttpsAuth: "BasicHttpsAuth",
+}
+
 type responseInfo struct {
 	Status     string
 	StatusCode int

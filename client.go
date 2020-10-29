@@ -37,7 +37,12 @@ func newClient(ctx context.Context, token *Token, baseURL string, version int, h
 func (c *client) setRequestHeaders(req *http.Request) {
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Authorization", "OAuth "+c.token.AccessToken)
+	if c.token.AccessToken == EAuthType.OAuthToken {
+		req.Header.Add("Authorization", "OAuth "+c.token.AccessToken)
+	}
+	if c.token.AccessToken == EAuthType.BasicHttpsAuth {
+		req.Header.Add("Authorization", "Basic "+c.token.AccessToken)
+	}
 }
 
 func (c *client) request(method string, pathURL string, body io.Reader) (*http.Request, error) {
