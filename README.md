@@ -21,12 +21,12 @@ Installation
 
 Use module (recommended)
 ```go
-import "github.com/nikitaksv/yandex-disk-sdk-go"
+import "github.com/shamilsun/yandex-disk-sdk-go"
 ```
 
 Use vendor
 ```sh
-go get github.com/nikitaksv/yandex-disk-sdk-go
+go get github.com/shamilsun/yandex-disk-sdk-go
 ```
 
 Documentation
