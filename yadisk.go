@@ -3,7 +3,6 @@ package yadisk
 import (
 	"bytes"
 	"context"
-	"encoding/base64"
 	"errors"
 	"fmt"
 	"log"
@@ -18,18 +17,26 @@ const (
 	MaxFileUploadSize int64  = 1e10
 )
 
+//var options = {
+//host: 'webdav.yandex.ru',
+//port: 443,
+//method: method.toUpperCase(),
+//path: encodeURI(this._normalizePath(path)),
+//headers: {
+//'Host': 'webdav.yandex.ru',
+//'Accept': '*/*',
+//'Authorization': this._auth
+//}
+//};
+
+//func basicAuth(username, password string) string {
+//	auth := username + ":" + password
+//	return base64.StdEncoding.EncodeToString([]byte(auth))
+//}
+
 func NewYaDisk(ctx context.Context, client *http.Client, token *Token) (YaDisk, error) {
-	if token.AuthType == EAuthType.OAuthToken && (token == nil || token.AccessToken == "") {
+	if token == nil || token.AccessToken == "" {
 		return nil, errors.New("required token")
-	}
-	if token.AuthType == EAuthType.BasicHttpsAuth {
-		if token.Login == "" {
-			return nil, errors.New("required login")
-		}
-		if token.Password == "" {
-			return nil, errors.New("required password")
-		}
-		token.AccessToken = base64.StdEncoding.EncodeToString([]byte(token.Login + ":" + token.Password))
 	}
 
 	newClient, err := newClient(ctx, token, BaseURL, 1, client)

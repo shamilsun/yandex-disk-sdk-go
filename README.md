@@ -43,18 +43,7 @@ Documentation
 Create new instance Yandex.Disk
 
 ```go
-yaDiskWithOAuthAuth,err := yadisk.NewYaDisk(ctx.Background(),http.DefaultClient, &yadisk.Token{
-    AccessToken: "YOUR_TOKEN",
-    AuthType: EAuthType.OAuthToken
-})
-
-yaDiskWithBasicAuth,err := yadisk.NewYaDisk(ctx.Background(),http.DefaultClient, &yadisk.Token{
-    AuthType: EAuthType.BasicHttpsAuth,
-    Login: "login",
-    Password: "Password"
-})
-
-
+yaDisk,err := yadisk.NewYaDisk(ctx.Background(),http.DefaultClient, &yadisk.Token{AccessToken: "YOUR_TOKEN"})
 if err != nil {
     panic(err.Error())
 }
